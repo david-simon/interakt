@@ -1,0 +1,8 @@
+.idea
+*.iml
+
+# Editor-based Rest Client
+.idea/httpRequests
+
+.gradle
+build/
