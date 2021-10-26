@@ -5,10 +5,7 @@ import org.jline.reader.LineReader
 import org.jline.terminal.Terminal
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
-import xyz.davidsimon.interakt.Prompt
-import xyz.davidsimon.interakt.PromptResult
-import xyz.davidsimon.interakt.defaultNull
-import xyz.davidsimon.interakt.promptIfNull
+import xyz.davidsimon.interakt.*
 import xyz.davidsimon.interakt.util.cyan
 import xyz.davidsimon.interakt.util.deleteLinesAbove
 import xyz.davidsimon.interakt.util.formatPromptMessage
@@ -69,3 +66,9 @@ fun Prompt.integer(
     shouldPrompt: ((PromptResult, IntegerField) -> Boolean) = promptIfNull(),
     default: ((PromptResult, IntegerField) -> Int?) = defaultNull
 ): IntegerField = addField(IntegerField(message, shouldPrompt, default))
+
+fun Prompt.integer(
+    message: String,
+    shouldPrompt: ((PromptResult, IntegerField) -> Boolean) = promptIfNull(),
+    default: Int? = null
+): IntegerField = addField(IntegerField(message, shouldPrompt, default(default)))

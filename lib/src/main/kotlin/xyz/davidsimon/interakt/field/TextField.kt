@@ -5,10 +5,7 @@ import kotlinx.coroutines.withContext
 import org.jline.keymap.BindingReader
 import org.jline.reader.LineReader
 import org.jline.terminal.Terminal
-import xyz.davidsimon.interakt.Prompt
-import xyz.davidsimon.interakt.PromptResult
-import xyz.davidsimon.interakt.defaultNull
-import xyz.davidsimon.interakt.promptIfNull
+import xyz.davidsimon.interakt.*
 import xyz.davidsimon.interakt.util.cyan
 import xyz.davidsimon.interakt.util.deleteLinesAbove
 import xyz.davidsimon.interakt.util.formatPromptMessage
@@ -47,3 +44,9 @@ fun Prompt.text(
     shouldPrompt: ((PromptResult, TextField) -> Boolean) = promptIfNull(),
     default: ((PromptResult, TextField) -> String?) = defaultNull
 ): TextField = addField(TextField(message, shouldPrompt, default))
+
+fun Prompt.text(
+    message: String,
+    shouldPrompt: ((PromptResult, TextField) -> Boolean) = promptIfNull(),
+    default: String? = null
+): TextField = addField(TextField(message, shouldPrompt, default(default)))

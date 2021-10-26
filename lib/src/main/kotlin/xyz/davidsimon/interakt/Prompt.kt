@@ -62,10 +62,19 @@ suspend fun prompt(terminal: Terminal, body: suspend Prompt.() -> Unit): Prompt 
     }
 }
 
-data class PromptResult(private val results: Map<PromptField<out Any>, Any?>) {
+suspend fun prompt(body: suspend Prompt.() -> Unit): Prompt {
+    return prompt(TerminalBuilder.terminal(), body)
+}
+
+data class PromptResult(private val results: Map<PromptField<out Any>, Any?>)
+    : Iterable<Map.Entry<PromptField<out Any>, Any?>> {
 
     operator fun <T> get(key: PromptField<T>): T? {
         return (results as Map<PromptField<T>, T?>)[key]
+    }
+
+    override fun iterator(): Iterator<Map.Entry<PromptField<out Any>, Any?>> {
+        return results.iterator()
     }
 }
 
