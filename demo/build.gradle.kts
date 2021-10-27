@@ -11,7 +11,8 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":lib"))
+    implementation(project(":interakt"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 }
 
 tasks.compileKotlin {
@@ -21,8 +22,6 @@ tasks.compileKotlin {
 }
 
 tasks.shadowJar {
-    archiveBaseName.set("interakt-demo")
-
     manifest {
         attributes(mapOf(
             "Main-Class" to "xyz.davidsimon.interakt.demo.MainKt"

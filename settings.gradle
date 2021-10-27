@@ -1,2 +1,5 @@
-rootProject.name = 'interakt'
+rootProject.name = 'interakt-root'
 include("lib", "demo")
+
+project(":lib").name = "interakt"
+project(":demo").name = "interakt-demo"
