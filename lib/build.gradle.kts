@@ -5,10 +5,6 @@ plugins {
     id("org.jetbrains.dokka") version "1.5.31"
 }
 
-group = "xyz.davidsimon"
-version = "1.0"
-description = "An easy to use library to create interactive command line prompts"
-
 repositories {
     mavenCentral()
 }
