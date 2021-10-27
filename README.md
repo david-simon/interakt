@@ -1,6 +1,28 @@
 # interakt
 Interactive prompts made easy!
 
+## Install
+
+### Gradle - Kotlin DSL
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("xyz.davidsimon:interakt:0.1.0")
+}
+```
+
+### Maven
+```xml
+<dependency>
+    <groupId>xyz.davidsimon</groupId>
+    <artifactId>interakt</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
 ## Usage
 ![asciicast](media/demo.gif)
 
