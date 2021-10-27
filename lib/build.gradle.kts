@@ -48,15 +48,7 @@ val javadocJar = tasks.register("javadocJar", Jar::class) {
 }
 
 publishing {
-    publications.create(project.name, MavenPublication::class) {
-        repositories {
-            maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                credentials {
-                    username = project.properties["ossrhUsername"].toString()
-                    password = project.properties["ossrhPassword"].toString()
-                }
-            }
-        }
+    publications.create<MavenPublication>(project.name) {
         from(components["kotlin"])
         artifact(tasks.kotlinSourcesJar)
         artifact(javadocJar)
