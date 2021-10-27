@@ -29,13 +29,13 @@ tasks.test {
 
 tasks.compileKotlin {
     kotlinOptions {
-        jvmTarget = "16"
+        jvmTarget = "11"
     }
 }
 
 tasks.compileTestKotlin {
     kotlinOptions {
-        jvmTarget = "16"
+        jvmTarget = "11"
     }
 }
 
