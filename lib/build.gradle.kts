@@ -27,6 +27,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.compileJava {
+    targetCompatibility = "11"
+}
+
 tasks.compileKotlin {
     kotlinOptions {
         jvmTarget = "11"
