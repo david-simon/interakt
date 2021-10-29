@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("xyz.davidsimon:interakt:0.1.0")
+    implementation("xyz.davidsimon:interakt:0.2.0")
 }
 ```
 
