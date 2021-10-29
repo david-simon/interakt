@@ -19,7 +19,7 @@ dependencies {
 <dependency>
     <groupId>xyz.davidsimon</groupId>
     <artifactId>interakt</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -36,7 +36,12 @@ Using a few convenience methods, we can achieve all this in just a few lines of 
 prompt {
     text("foo:", default = "default value")
     integer("bar:", default = 42)
-    list("baz:", listOf("1", "2", "3"), true)
+    singleList("baz:", listOf("1", "2", "3"), true)
+    list("multi:", listOf(
+        ListField.Choice("one", 1),
+        ListField.Choice("two", 2),
+        ListField.Choice("three", 3)
+    ))
 
     println("Result:")
     for((key, value) in execute()) {
@@ -52,11 +57,14 @@ Base class for all other fields
 
 **Options:**  
 
-| Parameter     | Type                                        | Description                                                                                                         |
-|---------------|---------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| promptMessage | `String`                                    | Message to display before user input                                                                                |
-| shouldPrompt  | `(PromptResult, PromptField<T>) -> Boolean` | Controls whether the field should be prompted. Receives the answers entered so far and the current field's instance |
-| default       | `(PromptResult, PromptField<T>) -> T?`      | Provides a default value that will be pre-filled                                                                    |
+| Parameter     | Type                            | Description                                                                                                         |
+|---------------|---------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| promptMessage | `String`                        | Message to display before user input                                                                                |
+| shouldPrompt  | `(PromptResult, T?) -> Boolean` | Controls whether the field should be prompted. Receives the answers entered so far and the current field's instance |
+| default       | `(PromptResult, T?) -> T?`      | Provides a default value that will be pre-filled                                                                    |
+
+### `StatefulField`
+Base class for fields that have a complex rendering function. Has event handlers that receive the current `RenderState`.
 
 ### `TextField`
 Prompts user for simple text input
@@ -65,13 +73,16 @@ Prompts user for simple text input
 Prompts user for integer input
 
 ### `ListField`
-Prompts the user to choose from a list of items. The displayed name and the actual value of the items may differ.
+Prompts the user to choose items from a list. The displayed name and the actual value of the items may differ.
 
 **Options:**
 
 | Parameter | Type                                | Description                   |
 |-----------|-------------------------------------|-------------------------------|
 | choices   | `(PromptResult) -> List<Choice<T>>` | Returns the available choices |
+
+### `SingleValueListField`
+Prompts the user to choose **ONE** item from a list.
 
 ### `TextListField`
 Prompts the user to choose from a list of text items. Optionally the user may enter a custom value.

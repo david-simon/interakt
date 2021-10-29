@@ -5,19 +5,19 @@ import org.jline.keymap.BindingReader
 import org.jline.reader.LineReaderBuilder
 import org.jline.terminal.Terminal
 import org.jline.terminal.TerminalBuilder
-import xyz.davidsimon.interakt.field.*
+import xyz.davidsimon.interakt.field.PromptField
 
 
-fun <T> promptIfNull(): (PromptResult, PromptField<T>) -> Boolean {
-    return { pr: PromptResult, pf: PromptField<T> -> pr[pf] == null }
+fun <T> promptIfNull(): (PromptResult, T) -> Boolean {
+    return { _: PromptResult, pf: T? -> pf == null }
 }
 
-fun <T> default(vararg defaults: T): (Any, Any) -> T? {
-    return { _: Any, _: Any -> defaults.find { it != null } }
+fun <T> wrapDefault(vararg defaults: T): (PromptResult, T?) -> T? {
+    return { _: Any, _: T? -> defaults.find { it != null } }
 }
 
-val alwaysPrompt = { _: Any, _: Any -> true }
-val defaultNull = { _: Any, _: Any -> null }
+fun <T> alwaysPrompt() = { _: Any, _: T? -> true }
+fun <T> defaultNull(): (PromptResult, T) -> T? = { _, _ -> null }
 
 open class Prompt(
     private val terminal: Terminal = TerminalBuilder.terminal(),
@@ -47,7 +47,7 @@ open class Prompt(
             field as PromptField<Any>
 
             val partialResults = PromptResult(results)
-            if (!field.shouldPrompt(partialResults, field)) continue
+            if (!field.shouldPrompt(partialResults, partialResults[field])) continue
 
             results[field] = field.render(partialResults, terminal, lineReader, bindingReader, writer)
         }

@@ -5,7 +5,7 @@ plugins {
 
 allprojects {
     group = "xyz.davidsimon"
-    version = "0.1.0"
+    version = "0.2.0"
     description = "An easy to use library to create interactive command line prompts"
 }
 

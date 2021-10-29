@@ -26,15 +26,3 @@ fun cyan(text: String): String {
         append(text)
     }.toAnsi()
 }
-
-fun formatListChoice(name: String, selected: Boolean): String {
-    return AttributedStringBuilder().apply {
-        if (selected) {
-            style(AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN))
-            append(PlatformSymbols.POINTER)
-        } else {
-            append(" ")
-        }
-        append(" $name")
-    }.toAnsi()
-}

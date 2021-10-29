@@ -6,12 +6,12 @@ import org.jline.terminal.Terminal
 import xyz.davidsimon.interakt.PromptResult
 import java.io.PrintWriter
 
-sealed class PromptField<T>(
-    val promptMessage: String,
-    val shouldPrompt: (PromptResult, PromptField<T>) -> Boolean,
-    val default: (PromptResult, PromptField<T>) -> T?
-) {
-    abstract suspend fun render(
+interface PromptField<T> {
+    val promptMessage: String
+    val shouldPrompt: (PromptResult, T?) -> Boolean
+    val default: (PromptResult, T?) -> T?
+
+    suspend fun render(
         pr: PromptResult,
         terminal: Terminal,
         lineReader: LineReader,

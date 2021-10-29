@@ -2,10 +2,7 @@ package xyz.davidsimon.interakt.test
 
 import org.junit.jupiter.api.Test
 import xyz.davidsimon.interakt.*
-import xyz.davidsimon.interakt.field.ListField
-import xyz.davidsimon.interakt.field.integer
-import xyz.davidsimon.interakt.field.list
-import xyz.davidsimon.interakt.field.text
+import xyz.davidsimon.interakt.field.*
 
 internal class BasicFieldTest {
 
@@ -15,7 +12,7 @@ internal class BasicFieldTest {
             .append("baz")
             .newLine()
 
-        addAssertedField(prompt.text("Foo:"), "baz")
+        addAssertedField(prompt.text("Foo:", default = null), "baz")
     }
 
     @Test
@@ -24,20 +21,35 @@ internal class BasicFieldTest {
             .append("42")
             .newLine()
 
-        addAssertedField(prompt.integer("Foo:"), 42)
+        addAssertedField(prompt.integer("Foo:", default = null), 42)
     }
 
     @Test
     fun testListField(): Unit = scenario {
         inputBuilder
+            .space()
             .keyDown(terminal)
+            .space()
             .carriageReturn()
             .newLine()
 
         addAssertedField(prompt.list(
             "Foo:",
             (1..10).map { ListField.Choice("Choice-$it", it) }
-        ), 2)
+        ), listOf(1, 2))
+    }
+
+    @Test
+    fun testSingleValueListField(): Unit = scenario {
+        inputBuilder
+            .keyDown(terminal)
+            .carriageReturn()
+            .newLine()
+
+        addAssertedField(prompt.singleList(
+            "Foo:",
+            (1..10).map { ListField.Choice("Choice-$it", it) }
+        ), listOf(2))
     }
 
     @Test
@@ -47,23 +59,23 @@ internal class BasicFieldTest {
             .carriageReturn()
             .newLine()
 
-        addAssertedField(prompt.list("Foo:", listOf(
+        addAssertedField(prompt.singleList("Foo:", listOf(
             "one", "two", "three"
-        )), "two")
+        )), listOf("two"))
     }
 
     @Test
     fun testTextFieldDefault() = scenario {
         inputBuilder.newLine()
 
-        addAssertedField(prompt.text("Foo:", default = default("bar")), "bar")
+        addAssertedField(prompt.text("Foo:", default = wrapDefault("bar")), "bar")
     }
 
     @Test
     fun testIntFieldDefault() = scenario {
         inputBuilder.newLine()
 
-        addAssertedField(prompt.integer("Foo:", default = default(42)), 42)
+        addAssertedField(prompt.integer("Foo:", default = wrapDefault(42)), 42)
     }
 
     @Test
@@ -75,8 +87,8 @@ internal class BasicFieldTest {
         addAssertedField(prompt.list(
             "Foo:",
             (1..10).map { ListField.Choice("Choice-$it", it) },
-            default = default(2)
-        ), 2)
+            default = wrapDefault(listOf(2))
+        ), listOf(2))
     }
 
     @Test
@@ -85,10 +97,10 @@ internal class BasicFieldTest {
             .carriageReturn()
             .newLine()
 
-        addAssertedField(prompt.list(
+        addAssertedField(prompt.singleList(
             "Foo:",
             listOf("one", "two", "three"),
-            default = default("two")
-        ), "two")
+            default = wrapDefault("two")
+        ), listOf("two"))
     }
 }

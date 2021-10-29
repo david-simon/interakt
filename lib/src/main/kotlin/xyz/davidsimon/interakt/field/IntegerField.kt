@@ -12,14 +12,10 @@ import xyz.davidsimon.interakt.util.formatPromptMessage
 import java.io.PrintWriter
 
 class IntegerField(
-    promptMessage: String,
-    shouldPrompt: (PromptResult, IntegerField) -> Boolean,
-    default: (PromptResult, IntegerField) -> Int?
-) : PromptField<Int>(
-    promptMessage,
-    shouldPrompt as (PromptResult, PromptField<Int>) -> Boolean,
-    default as (PromptResult, PromptField<Int>) -> Int?
-) {
+    override val promptMessage: String,
+    override val shouldPrompt: (PromptResult, Int?) -> Boolean,
+    override val default: (PromptResult, Int?) -> Int?
+) : PromptField<Int> {
     override suspend fun render(
         pr: PromptResult,
         terminal: Terminal,
@@ -27,7 +23,7 @@ class IntegerField(
         bindingReader: BindingReader,
         writer: PrintWriter
     ): Int? {
-        var text: String? = default(pr, this)?.toString()
+        var text: String? = default(pr, pr[this])?.toString()
         var retVal: Int?
         var firstTry = true
         val invalidNumberPrompt = AttributedStringBuilder()
@@ -63,12 +59,12 @@ class IntegerField(
 
 fun Prompt.integer(
     message: String,
-    shouldPrompt: ((PromptResult, IntegerField) -> Boolean) = promptIfNull(),
-    default: ((PromptResult, IntegerField) -> Int?) = defaultNull
+    shouldPrompt: ((PromptResult, Int?) -> Boolean) = promptIfNull(),
+    default: ((PromptResult, Int?) -> Int?) = defaultNull()
 ): IntegerField = addField(IntegerField(message, shouldPrompt, default))
 
 fun Prompt.integer(
     message: String,
-    shouldPrompt: ((PromptResult, IntegerField) -> Boolean) = promptIfNull(),
+    shouldPrompt: ((PromptResult, Int?) -> Boolean) = promptIfNull(),
     default: Int? = null
-): IntegerField = addField(IntegerField(message, shouldPrompt, default(default)))
+): IntegerField = addField(IntegerField(message, shouldPrompt, wrapDefault(default)))

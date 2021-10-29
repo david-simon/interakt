@@ -22,6 +22,7 @@ fun createTerminal(): Pair<Terminal, Writer> {
     return Pair(term, pipeWriter)
     }
 
-fun StringBuilder.newLine() = this.appendLine("\n")
-fun StringBuilder.carriageReturn() = this.appendLine("\r")
+fun StringBuilder.newLine() = this.append("\n")
+fun StringBuilder.carriageReturn() = this.append("\r")
+fun StringBuilder.space() = this.append(" ")
 fun StringBuilder.keyDown(terminal: Terminal) = this.append(KeyMap.key(terminal, InfoCmp.Capability.key_down))
