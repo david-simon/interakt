@@ -4,7 +4,6 @@ import org.jline.terminal.Terminal
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
 import org.jline.utils.InfoCmp
-import xyz.davidsimon.interakt.PlatformSymbols
 
 fun Terminal.deleteLinesAbove(n: Int) {
     puts(InfoCmp.Capability.parm_up_cursor, n)

@@ -7,17 +7,20 @@ import xyz.davidsimon.interakt.prompt
 fun main() {
     runBlocking {
         prompt {
-            text("foo:", default = "default value")
-            integer("bar:", default = 42)
-            singleList("baz:", listOf("1", "2", "3"), true)
-            list("multi:", listOf(
+            text("text:", default = "default value")
+            integer("integer:", default = 42)
+            singleList("text list:", listOf("1", "2", "3"), true)
+            list("multi list:", listOf(
                 ListField.Choice("one", 1),
                 ListField.Choice("two", 2),
                 ListField.Choice("three", 3)
             ))
+            password("password:", default = null)
+
+            val res = execute()
 
             println("Result:")
-            for((key, value) in execute()) {
+            for((key, value) in res) {
                 println("${key.promptMessage} $value")
             }
         }

@@ -7,7 +7,7 @@ import org.jline.terminal.TerminalBuilder
 import org.jline.utils.InfoCmp
 import java.io.*
 
-fun createTerminal(): Pair<Terminal, Writer> {
+fun createTerminal(): Triple<Terminal, OutputStreamWriter, ByteArrayOutputStream> {
     val outputPipe = PipedOutputStream()
     val pipeWriter = OutputStreamWriter(outputPipe)
     val inputStream = PipedInputStream(outputPipe)
@@ -19,8 +19,8 @@ fun createTerminal(): Pair<Terminal, Writer> {
 
     term.attributes = term.attributes.apply { setInputFlag(Attributes.InputFlag.ICRNL, false) }
 
-    return Pair(term, pipeWriter)
-    }
+    return Triple(term, pipeWriter, outputStream)
+}
 
 fun StringBuilder.newLine() = this.append("\n")
 fun StringBuilder.carriageReturn() = this.append("\r")

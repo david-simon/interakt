@@ -3,6 +3,8 @@ package xyz.davidsimon.interakt.test
 import org.junit.jupiter.api.Test
 import xyz.davidsimon.interakt.*
 import xyz.davidsimon.interakt.field.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 internal class BasicFieldTest {
 
@@ -65,6 +67,15 @@ internal class BasicFieldTest {
     }
 
     @Test
+    fun testPasswordField() = scenario {
+        inputBuilder
+            .append("baz")
+            .newLine()
+
+        addAssertedField(prompt.password("Foo:", default = defaultNull()), "baz")
+    }
+
+    @Test
     fun testTextFieldDefault() = scenario {
         inputBuilder.newLine()
 
@@ -102,5 +113,22 @@ internal class BasicFieldTest {
             listOf("one", "two", "three"),
             default = wrapDefault("two")
         ), listOf("two"))
+    }
+
+    @Test
+    fun testPasswordFieldOutput() = scenario {
+        inputBuilder
+            .append("baz")
+            .newLine()
+
+        prompt.password("Foo:", default = defaultNull())
+
+        assertResult {
+            val output = outputStream.toString().substringAfterLast("Foo:", "")
+            val startCharCount = output.filter { it == '*' }.length
+
+            assertFalse(output.contains("baz"))
+            assertEquals(3, startCharCount)
+        }
     }
 }

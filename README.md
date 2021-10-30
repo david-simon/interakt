@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("xyz.davidsimon:interakt:0.2.0")
+    implementation("xyz.davidsimon:interakt:0.3.0")
 }
 ```
 
@@ -19,7 +19,7 @@ dependencies {
 <dependency>
     <groupId>xyz.davidsimon</groupId>
     <artifactId>interakt</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
 </dependency>
 ```
 
@@ -68,6 +68,9 @@ Base class for fields that have a complex rendering function. Has event handlers
 
 ### `TextField`
 Prompts user for simple text input
+
+### `PasswordField`
+Prompts the user for text input and masks it with `*` characters
 
 ### `IntegerField`
 Prompts user for integer input
